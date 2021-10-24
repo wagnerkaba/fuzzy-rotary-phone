@@ -13,7 +13,7 @@ import java.util.List;
 
 // Implementação do código: Spring Boot Tutorial
 // https://www.youtube.com/watch?v=9SGDpanrc8U
-// Parei em: 36:15 Creating and Connecting to Database
+
 
 
 
