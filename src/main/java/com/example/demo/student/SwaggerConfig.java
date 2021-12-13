@@ -45,7 +45,7 @@ public class SwaggerConfig {
                 .title("Student API")
                 .description("REST API para gerenciamento de cadastro de estudantes")
                 .version("1.0.0")
-                .contact(new Contact("Wagner Kaba", "https://github.com/wagnerkaba", null))
+                .contact(new Contact("Wagner Kaba", "https://github.com/wagnerkaba", "elguapore@gmail.com"))
                 .build();
 
     }
