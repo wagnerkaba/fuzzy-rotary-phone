@@ -8,6 +8,7 @@
 - Spring Boot
 - Swagger
 - PostgreSQL
+- Lombok
 
 
 
