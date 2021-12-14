@@ -1,5 +1,7 @@
 package com.example.demo.student;
 
+import com.example.demo.student.exception.BadRequestException;
+import com.example.demo.student.exception.StudentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,8 @@ public class StudentService {
     public void addNewStudent(Student student) {
         Optional<Student> studentByEmail = studentRepository.findStudentByEmail(student.getEmail());
         if (studentByEmail.isPresent()){
-            throw new IllegalStateException("Email taken");
+            throw new BadRequestException(
+                    "Email " + student.getEmail() + " taken");
         }
         studentRepository.save(student);
 
@@ -38,7 +41,7 @@ public class StudentService {
     public void deleteStudent(Long id) {
         boolean exists = studentRepository.existsById(id);
         if(!exists){
-            throw new IllegalStateException("student with id " + id + " does not exists");
+            throw new StudentNotFoundException("student with id " + id + " does not exists");
         }
         studentRepository.deleteById(id);
 
