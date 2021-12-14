@@ -1,4 +1,4 @@
-# API simples para gerenciamento de cadastro de estudantes
+# API para gerenciamento de cadastro de estudantes
 
 **Documentação disponível em:** https://wkstudent.herokuapp.com/swagger-ui.html
 
@@ -9,6 +9,9 @@
 - Swagger
 - PostgreSQL
 - Lombok
+- Hibernate validator
+- Spring Boot Actuator
+- Spring Data JPA
 
 
 
