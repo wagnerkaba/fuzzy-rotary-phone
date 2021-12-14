@@ -28,8 +28,9 @@ public class StudentService {
     }
 
     public void addNewStudent(Student student) {
-        Optional<Student> studentByEmail = studentRepository.findStudentByEmail(student.getEmail());
-        if (studentByEmail.isPresent()){
+        Boolean existsEmail = studentRepository
+                .selectExistsEmail(student.getEmail());
+        if (existsEmail) {
             throw new BadRequestException(
                     "Email " + student.getEmail() + " taken");
         }
@@ -39,34 +40,28 @@ public class StudentService {
     }
 
     public void deleteStudent(Long id) {
-        boolean exists = studentRepository.existsById(id);
-        if(!exists){
-            throw new StudentNotFoundException("student with id " + id + " does not exists");
-        }
+        verifyStudentId(id);
         studentRepository.deleteById(id);
 
     }
 
+
+
     @Transactional
-    public void updateStudent(Long studentId, String name, String email) {
-        Optional<Student> student = studentRepository.findById(studentId);
-        if(student.isEmpty()){
-            throw new IllegalStateException("student with id " + studentId + " does not exists");
-        }
-        if(name!=null && name.length()>0){
-            student.get().setName(name);
-        }
-        if(email!=null && email.length()>0){
+    public void updateStudent(Student student) {
 
-            Optional<Student> studentByEmail = studentRepository.findStudentByEmail(email);
-            if (studentByEmail.isPresent()){
-                throw new IllegalStateException("Email taken");
-            }
+        verifyStudentId(student.getId());
+        studentRepository.save(student);
 
-            student.get().setEmail(email);
-
-        }
 
 
     }
+    private void verifyStudentId(Long id) {
+        boolean exists = studentRepository.existsById(id);
+        if(!exists){
+            throw new StudentNotFoundException("student with id " + id + " does not exists");
+        }
+    }
+
+
 }

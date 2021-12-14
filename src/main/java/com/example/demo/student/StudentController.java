@@ -31,11 +31,10 @@ public class StudentController {
     }
 
 
-    @PutMapping(path = "{studentId}")
-    public void updateStudent(@PathVariable("studentId") Long studentId,
-                              @RequestParam(required = false) String name,
-                              @RequestParam(required = false) String email){
-        studentService.updateStudent(studentId, name, email);
+    @PutMapping
+    public void updateStudent(@Valid @RequestBody Student student
+                              ){
+        studentService.updateStudent(student);
     }
 
 
