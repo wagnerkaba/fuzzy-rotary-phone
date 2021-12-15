@@ -12,6 +12,7 @@
 - Hibernate validator
 - Spring Boot Actuator
 - Spring Data JPA
+- H2 Database para realizar testes unitários
 
 
 
