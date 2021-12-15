@@ -42,6 +42,15 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+			<!--	<scope>test</scope> serve para indicar que o database H2 funciona apenas para testes	-->
+			<!--	Assim, os dados gerados em teste não são misturados com os dados do Postgree-->
+			<!--	Lembre-se de adicionar um arquivo application.properties para a fase de testes também-->
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
