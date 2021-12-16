@@ -1,14 +1,14 @@
 package com.example.demo.student;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
+@ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
 
 //    What exactly is a mock object?
@@ -23,20 +23,14 @@ class StudentServiceTest {
 
     @Mock
     private StudentRepository studentRepository;
-    private  AutoCloseable autoCloseable;
     private StudentService underTest;
 
     @BeforeEach
     void setUp(){
-        autoCloseable = MockitoAnnotations.openMocks(this); // initializes fields annotated with Mockito annotations
         underTest = new StudentService(studentRepository);
     }
 
-    @AfterEach
-    void tearDown() throws Exception {
-        autoCloseable.close();
 
-    }
 
     @Test
     void canGetStudents() {
