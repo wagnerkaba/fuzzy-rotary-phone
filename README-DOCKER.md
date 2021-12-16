@@ -1,4 +1,4 @@
-# DOCKER
+# DOCKER UTILIZADO PARA POSTGRES LOCAL
 
 ## Criar container docker do Postgres
 
