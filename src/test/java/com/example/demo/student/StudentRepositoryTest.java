@@ -1,5 +1,6 @@
 package com.example.demo.student;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,6 +17,11 @@ class StudentRepositoryTest {
     @Autowired
     private StudentRepository underTest;
 
+    @AfterEach
+    void tearDown() {
+        // Após cada teste, os dados do banco de dados são apagados
+        underTest.deleteAll();
+    }
 
     @Test
     void ItShouldCheckIfStudentEmailExists() {
