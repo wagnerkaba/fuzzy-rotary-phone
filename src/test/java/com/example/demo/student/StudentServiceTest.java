@@ -1,5 +1,6 @@
 package com.example.demo.student;
 
+import com.example.demo.student.exception.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +11,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.time.Month;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -77,6 +83,39 @@ class StudentServiceTest {
 
 
     }
+
+    // quando o método addNewStudent(student) é invocado e o email de student já existe
+    // é lançada a exceção BadRequestException
+    // Este teste verifica se essa exceção foi lançada
+    @Test
+    void willThrowWhenEmailIsTaken() {
+
+        //given
+        Student student = new Student(
+                "Carlos",
+                "carlos@gmail.com",
+                LocalDate.of(2000, Month.JANUARY, 5),
+                Gender.MALE
+        );
+
+        // Assegura que
+        // quando o método studentRepository.selectExistsEmail() for invocado
+        // ele vai retornar "true"
+        // Ou seja, o método referido vai retornar que o email já existe
+        given(studentRepository.selectExistsEmail(anyString()))
+                .willReturn(true);
+
+        //then
+        assertThatThrownBy(() -> underTest.addNewStudent(student))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessageContaining("Email " + student.getEmail() + " taken");
+
+        // Como o email existe, a exceção BadRequestException é lançada
+        // Nesse caso studentRepository não pode salvar nenhum student
+        // Então o comando abaixo verifica que studentRepository.save() nunca é invocado após a exceção
+        verify(studentRepository, never()).save(any());
+    }
+
 
     @Test
     void deleteStudent() {
