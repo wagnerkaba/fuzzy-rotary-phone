@@ -4,6 +4,10 @@
 
 https://wkstudent.herokuapp.com/swagger-ui.html
 
+## Link para Spring Boot Actuator Health
+
+https://wkstudent.herokuapp.com/actuator/health
+
 ## Tecnologias utilizadas:
 
 - Java 11
