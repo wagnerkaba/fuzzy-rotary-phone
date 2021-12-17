@@ -3,9 +3,14 @@ package com.example.demo.student;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
+import java.time.Month;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,13 +43,39 @@ class StudentServiceTest {
         underTest.getStudents();
 
         //then
-        verify(studentRepository).findAll();
+        verify(studentRepository).findAll(); //verifica se o método findAll() foi invocado dentro de getStudents()
+
+        //verify(studentRepository).deleteAll(); // Este teste falha porque deleteAll() não é invocado dentro de getStudents()
 
 
     }
 
     @Test
-    void addNewStudent() {
+    void canAddNewStudent() {
+
+        //given
+        Student student = new Student(
+                "Carlos",
+                "carlos@gmail.com",
+                LocalDate.of(2000, Month.JANUARY, 5),
+                Gender.MALE
+        );
+
+        //when
+        underTest.addNewStudent(student);
+
+        //then
+        ArgumentCaptor<Student> studentArgumentCaptor = ArgumentCaptor.forClass(Student.class);
+
+        // verificar se o método studentRepository.save() foi invocado
+        // studentArgumentCaptor.capture() => verifica o argumento do método save()
+        verify(studentRepository).save(studentArgumentCaptor.capture());
+
+        Student capturedStudent = studentArgumentCaptor.getValue();
+
+        assertThat(capturedStudent).isEqualTo(student);
+
+
     }
 
     @Test
