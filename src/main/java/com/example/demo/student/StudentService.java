@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -29,7 +26,7 @@ public class StudentService {
 
     public void addNewStudent(Student student) {
         Boolean existsEmail = studentRepository
-                .selectExistsEmail(student.getEmail());
+                .checkIfEmailExists(student.getEmail());
         if (existsEmail) {
             throw new BadRequestException(
                     "Email " + student.getEmail() + " taken");

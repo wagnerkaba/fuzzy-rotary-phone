@@ -1,6 +1,7 @@
 package com.example.demo.student;
 
 import com.example.demo.student.exception.BadRequestException;
+import com.example.demo.student.exception.StudentNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +14,7 @@ import java.time.Month;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -34,11 +34,11 @@ class StudentServiceTest {
 
     @Mock
     private StudentRepository studentRepository;
-    private StudentService underTest;
+    private StudentService studentServiceUnderTest;
 
     @BeforeEach
     void setUp(){
-        underTest = new StudentService(studentRepository);
+        studentServiceUnderTest = new StudentService(studentRepository);
     }
 
 
@@ -46,7 +46,7 @@ class StudentServiceTest {
     @Test
     void canGetStudents() {
         //when
-        underTest.getStudents();
+        studentServiceUnderTest.getStudents();
 
         //then
         verify(studentRepository).findAll(); //verifica se o método findAll() foi invocado dentro de getStudents()
@@ -68,7 +68,7 @@ class StudentServiceTest {
         );
 
         //when
-        underTest.addNewStudent(student);
+        studentServiceUnderTest.addNewStudent(student);
 
         //then
         ArgumentCaptor<Student> studentArgumentCaptor = ArgumentCaptor.forClass(Student.class);
@@ -102,11 +102,11 @@ class StudentServiceTest {
         // quando o método studentRepository.selectExistsEmail() for invocado
         // ele vai retornar "true"
         // Ou seja, o método referido vai retornar que o email já existe
-        given(studentRepository.selectExistsEmail(anyString()))
+        given(studentRepository.checkIfEmailExists(anyString()))
                 .willReturn(true);
 
         //then
-        assertThatThrownBy(() -> underTest.addNewStudent(student))
+        assertThatThrownBy(() -> studentServiceUnderTest.addNewStudent(student))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessageContaining("Email " + student.getEmail() + " taken");
 
@@ -115,6 +115,24 @@ class StudentServiceTest {
         // Então o comando abaixo verifica que studentRepository.save() nunca é invocado após a exceção
         verify(studentRepository, never()).save(any());
     }
+
+    @Test
+    void willThrowWhenStudentIdDoesNotExists(){
+        //given
+        Long id = anyLong();
+        given(studentRepository.existsById(id))
+                .willReturn(false);
+
+        //then
+        assertThatThrownBy(() -> studentServiceUnderTest.deleteStudent(id))
+                .isInstanceOf(StudentNotFoundException.class)
+                .hasMessageContaining("student with id " + id + " does not exists");
+
+        verify(studentRepository, never()).deleteById(any());
+
+    }
+
+
 
 
     @Test
