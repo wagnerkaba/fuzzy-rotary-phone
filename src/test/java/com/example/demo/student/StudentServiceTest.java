@@ -136,7 +136,20 @@ class StudentServiceTest {
 
 
     @Test
-    void deleteStudent() {
+    void canDeleteStudent() {
+
+        //given
+        Long studentId = anyLong();
+        given(studentRepository.existsById(studentId))
+                .willReturn(true);
+
+        //when
+        studentServiceUnderTest.deleteStudent(studentId);
+
+        //then
+        // verificar se o método studentRepository.deleteById() foi invocado
+        verify(studentRepository).deleteById(studentId);
+
     }
 
     @Test
