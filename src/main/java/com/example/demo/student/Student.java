@@ -30,7 +30,7 @@ public class Student {
     )
     private Long id;
 
-    @NotBlank
+    //@NotBlank
     @Column(nullable = false)
     private String name;
 

@@ -153,6 +153,25 @@ class StudentServiceTest {
     }
 
     @Test
-    void updateStudent() {
+    void canUpdateStudent() {
+//        //given
+        Long id = 1L;
+        Student student = new Student(id, "Carlos", "carlos@gmail.com", LocalDate.of(2000,1,23), 21, Gender.MALE);
+        given(studentRepository.existsById(student.getId()))
+                .willReturn(true);
+
+        //when
+        studentServiceUnderTest.updateStudent(student);
+
+        //then
+        ArgumentCaptor<Student> studentArgumentCaptor = ArgumentCaptor.forClass(Student.class);
+
+        // verificar se o método studentRepository.save() foi invocado
+        // studentArgumentCaptor.capture() => verifica o argumento do método save()
+        verify(studentRepository).save(studentArgumentCaptor.capture());
+
+        Student capturedStudent = studentArgumentCaptor.getValue();
+
+        assertThat(capturedStudent).isEqualTo(student);
     }
 }
