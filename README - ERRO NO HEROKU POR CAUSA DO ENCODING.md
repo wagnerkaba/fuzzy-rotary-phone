@@ -54,5 +54,5 @@ O heroku estava dando o seguinte erro:
  !     Push failed
 ```
 
-Descobri que o erro era por causa do encoding do arquivo `application.properties`, o qual estava com encoding **ANSI.** Para corrigir o erro, mudei o encoding para **UTF-8**
+Descobri que o erro era por causa do encoding do arquivo `application.properties`, o qual estava com encoding **ANSI.** [Para corrigir o erro, mudei o encoding para **UTF-8**](https://cursos.alura.com.br/forum/topico-erro-ao-tentar-gerar-package-pelo-maven-137021)
 
