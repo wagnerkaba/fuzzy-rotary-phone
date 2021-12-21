@@ -19,6 +19,8 @@ https://wkstudent.herokuapp.com/actuator/health
 - Spring Boot Actuator
 - Spring Data JPA
 - H2 Database para realizar testes unitários
+- Mockito e AssertJ para testes unitários
+
 
 
 

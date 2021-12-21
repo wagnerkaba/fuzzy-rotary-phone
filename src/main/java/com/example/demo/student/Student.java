@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.Period;
 
+
 @ToString
 @Getter
 @Setter
@@ -30,7 +31,7 @@ public class Student {
     )
     private Long id;
 
-    //@NotBlank
+    @NotBlank
     @Column(nullable = false)
     private String name;
 
@@ -51,6 +52,11 @@ public class Student {
         this.email = email;
         this.dob = dob;
         this.gender  = gender;
+    }
+
+    public Integer getAge(){
+        return Period.between(this.dob, LocalDate.now()).getYears();
+
     }
 
 
