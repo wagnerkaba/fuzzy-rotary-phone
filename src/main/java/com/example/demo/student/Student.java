@@ -39,6 +39,9 @@ public class Student {
     @Column(nullable = false, unique = true)
     private String email;
     private LocalDate dob;
+
+    // @Transient é uma anotação do JPA que serve para indicar que um atributo de uma classe não sera utilizado no banco de dados
+    // Neste caso, age será calculado através do método getAge
     @Transient
     private Integer age;
     @NotNull
