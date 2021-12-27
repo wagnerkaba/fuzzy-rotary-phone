@@ -18,7 +18,10 @@ import java.util.List;
 // https://www.youtube.com/watch?v=Geq60OVyBPg
 
 
-
+// =======================================
+// ATENÇÃO: antes de rodar o programa, verifique se o postgres está configurado localmente ou no heroku
+// Para fazer isso, verifique o arquivo application.properties
+// =======================================
 
 @SpringBootApplication
 
